@@ -1,0 +1,104 @@
+version: "3"
+services:
+  postgreSQL:
+    image: postgres:9.5.17-alpine
+    container_name: postgreSQL
+    ports: 
+      - 5432:5432
+    hostname: postgreSQL
+    volumes:
+      - postgreSQL_volume:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres 
+    networks: 
+      webapp.net:
+        ipv4_address: 172.16.240.10
+  pgAdmin4:
+    image: dpage/pgadmin4
+    container_name: pgAdmin4
+    ports:
+      - 5050:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=alexvirtualbr@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=alexork1973ut
+      - PGADMIN_LISTEN_ADDRESS=172.16.240.11
+      - PGADMIN_LISTEN_PORT=5050
+    depends_on:
+      - postgreSQL
+    networks:
+      webapp.net:
+        ipv4_address: 172.16.240.11
+  redis: 
+    image: redis:5.0.7-alpine
+    container_name: redis
+    volumes:
+      - redis_volume:/usr/share/redis/data
+    ports: 
+      - 6379:6379
+    networks: 
+      webapp.net:
+        ipv4_address: 172.16.240.12
+  webapp: &default-webapp
+    build: .
+    stdin_open: true
+    tty: true            
+    volumes:
+      - .:/app
+    ports: 
+      - 3000:3000
+      - 3001:3001
+      - 3002:3002
+      - 5002:5002              
+    depends_on: 
+      - postgreSQL
+      - pgAdmin4
+      - redis
+    environment:      
+      - POSTGRES_USER=postgres  
+      - POSTGRES_PASSWORD=postgres    
+      - POSTGRES_HOST=postgreSQL
+      - POSTGRES_PORT=5432
+      - REDIS_URL=http://172.16.240.12:6379
+      - REDIS_PORT=6379
+    networks: 
+      webapp.net:
+        ipv4_address: 172.16.240.13  
+  webapp_development:
+    << : *default-webapp
+    command: > 
+      bash -c "RAILS_ENV=development puma -C config/puma.rb
+        # Run development server detached"
+    networks: 
+      webapp.net:
+        ipv4_address: 172.16.240.14
+  webapp_test:
+    << : *default-webapp
+    command: >
+      bash -c "RAILS_ENV=test puma -b tcp://0.0.0.0:3001 &&
+      # Run test server with rspec detached
+      
+      RAILS_ENV=test puma -b tcp://0.0.0.0:5002
+      # Run test server with cypress detached"
+    networks: 
+      webapp.net:
+        ipv4_address: 172.16.240.15
+  webapp_production:
+    << : *default-webapp
+    command:  > 
+      bash -c "RAILS_ENV=production puma -b tcp://0.0.0.0:3002 -d
+      # Run production server detached"
+    networks: 
+      webapp.net:
+        ipv4_address: 172.16.240.16
+networks: 
+  webapp.net:
+    driver: bridge    
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.240.0/24         
+volumes: 
+  postgreSQL_volume:
+    driver: local
+  redis_volume:
+    driver: local
