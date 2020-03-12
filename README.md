@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # README
 
 This README would normally document whatever steps are necessary to get the
@@ -22,3 +23,7 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+=======
+# webapp
+My webapp api
+>>>>>>> 93b99e1de5f1d0eece39d7972e6f5313072260d9
