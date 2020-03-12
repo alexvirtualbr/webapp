@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  #mount ActionCable.server => '/cable'
   devise_for :users
   root 'landing#index'
-
-  resources :messages
+  resources :landing, only: [:index]
+  resources :messages, only: [:new, :create]
 
   namespace :api do
     namespace :v1 do
@@ -12,7 +13,7 @@ Rails.application.routes.draw do
       delete '/destroy/:id', to: 'recipes#destroy'
     end
   end
-  #root "homepage#index"
-  get '/*path' => 'homepage#index'
+
+  get '/*path' => 'landing#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
