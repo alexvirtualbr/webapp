@@ -1,0 +1,12 @@
+{
+  "name": "webapp",
+  "description": "The webapp api",
+  "author": {
+    "name": "Alexandre Ferreira",
+    "email": "alexvirtualbr@gmail.com"
+  },
+  "engines": {
+    "node": ">=10.18.1",
+    "yarn": ">=1.15.2"
+  }
+}
