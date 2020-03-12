@@ -5,6 +5,10 @@ class Api::V1::TripsController < ApplicationController
             { id: trip.id, name: trip.name }
         end
 
-        render json: { results: trips }.to_json, status: :ok
+        if trips
+            render json: { results: trips }.to_json, status: :ok
+        else
+            render json: { results: trips.errors}.to_json, status: :error
+        end
     end
 end
