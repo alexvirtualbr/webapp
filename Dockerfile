@@ -1,7 +1,7 @@
 FROM ruby:2.6.5
 LABEL author="Alexandre Ferreira"
 ENV DEBIAN_FRONTEND noninteractive
-ENV NODESJS_VERSION setup_10.x
+ENV NODESJS_VERSION setup_12.x
 
 # Install nodejs and yarn
 RUN curl -sL https://deb.nodesource.com/${NODESJS_VERSION} | bash - && \

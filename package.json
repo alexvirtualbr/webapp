@@ -6,7 +6,7 @@
     "email": "alexvirtualbr@gmail.com"
   },
   "engines": {
-    "node": ">=10.18.1",
-    "yarn": ">=1.15.2"
+    "node": ">=12.16.1",
+    "yarn": ">=1.22.0"
   }
 }
