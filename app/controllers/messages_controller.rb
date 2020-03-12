@@ -1,8 +1,6 @@
 class MessagesController < ApplicationController
     before_action :authenticate_user!
     
-    layout :messages_layout
-    
     def new
         @message = Message.new
     end
@@ -10,8 +8,17 @@ class MessagesController < ApplicationController
     def create
         @message = Message.new(message_params)
         if @message.save
-            ActionCable.server.broadcast "room_channel",
-            content: @message.content
+            # ActionCable.server.broadcast(
+            #     "room_BestRoom",
+            #     sent_by: current_user.email,
+            #     content: @message.content
+            # )
+
+            # WebNotificationsChannel.broadcast_to(
+            #     current_user,
+            #     title: "New things!",
+            #     body: 'All the news fit to print'
+            # )
         else
         end
     end
@@ -19,7 +26,8 @@ class MessagesController < ApplicationController
     private
 
         def message_params
-            params.require(:message).permit(:content)
+            params.require(:message).permit(:user_id, :content)
         end
     
 end
+
