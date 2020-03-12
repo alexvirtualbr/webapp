@@ -1,11 +1,7 @@
 Rails.application.routes.draw do
-  #mount ActionCable.server => '/cable'
   devise_for :users
-  root 'landing#index'
-  resources :landing, only: [:index]
-  resources :messages, only: [:new, :create]
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get 'recipes/index'
       post 'recipes/create'
@@ -13,9 +9,15 @@ Rails.application.routes.draw do
       delete '/destroy/:id', to: 'recipes#destroy'
 
       resources :trips, only: [:index]
+      resources :room, only: [:index]
+      resources :messages, only: [:new, :create]
+
+      post 'authenticate', to: 'authentication#authenticate'
+    
     end
   end
 
-  get '/*path' => 'landing#index'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  #get '/*path' => 'landing#index'
+  # For details on the DSL available within this file, 
+  # see https://guides.rubyonrails.org/routing.html
 end
