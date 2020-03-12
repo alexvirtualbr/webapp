@@ -27,6 +27,9 @@ module App
     ## Setting app to rails api
     config.api_only = true
 
+    ## Setting json_web_token autoload
+    config.autoload_paths << Rails.root.join("lib")
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
