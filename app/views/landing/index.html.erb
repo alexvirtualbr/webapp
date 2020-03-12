@@ -1,56 +1,18 @@
 <h1>Chat Room</h1>
 
-<h3 class=" text-center">Messaging</h3>
-<div class="messaging">
-      <div class="inbox_msg">
-        <div class="inbox_people">
-          <div class="headind_srch">
-            <div class="recent_heading">
-              <h4>Recent</h4>
-            </div>
-            <div class="srch_bar">
-              <div class="stylish-input-group">
-                <input type="text" class="search-bar"  placeholder="Search" >
-                <span class="input-group-addon">
-                <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
-                </span> </div>
-            </div>
-          </div>
-          <div class="inbox_chat">
-            <div class="chat_list active_chat">
-              <div class="chat_people"></div>
-                 <div class="chat_img">
-                    <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
-                </div>
-                <div class="chat_ib">
-                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                    <p>Whoted message coming here.</p>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div class="mesgs">
-          <div class="msg_history">
-           
-            <div class="incoming_msg" id="incoming_msg_id">
-              
-            </div>
-           
-            <div class="outgoing_msg" id="outgoing_msg_id">
-              
-            </div>
-           
-           
-            <div class="type_msg">
-                <div id="msg_write", class="input_msg_write">
-                    <%= form_for @message, remote: true do |f| %>
-                        <%= f.text_field :content, class: "write_msg", 
-                            placeholder: "Type a message" %>
-                        <%= f.submit class: "msg_send_btn" %>
-                    <% end %>
-                </div>
-            </div>
-        </div>
-      </div>
+<%= current_user.email %>
 
+<!--div data-chat-room='Best Room'></div-->
+
+<div id="messages">
+  <%= render @messages %>
+</div>
+
+<div id="msg_write">
+    <%= form_for @message, remote: true do |f| %>
+        <%= f.hidden_field :user_id, value: current_user.id %>
+        <%= f.text_field :content, class: "write_msg", id: "message_content",
+         placeholder: "Type a message" %>
+        <%= f.submit class: "msg_send_btn" %>
+    <% end %>
 </div>
