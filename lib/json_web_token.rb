@@ -1,4 +1,5 @@
-class JsonWebToken  class << self
+class JsonWebToken  
+  class << self
     def encode(payload, expiry = 24.hours.from_now)
       payload[:expiry] = expiry.to_i
       secret_key_base = Rails.application.secrets.secret_key_base
@@ -12,4 +13,5 @@ class JsonWebToken  class << self
     rescue
       nil
     end
-  endend
+  end
+end
