@@ -12,3 +12,11 @@
       instruction: 'In a medium saucepan, stir the clotted cream, butter, and cornflour over a low-ish heat and bring to a low simmer. Turn off the heat and keep warm.'
     )
 end
+
+20.times do |i|
+  User.create(
+    email: Faker::Internet.email,
+    password: 123456,
+    password_confirmation: 123456
+  )
+end
