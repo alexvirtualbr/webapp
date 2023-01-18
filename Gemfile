@@ -44,7 +44,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'awesome_print'
   gem 'shoulda-matchers'
-  gem 'rack', '~>2.2.2'
+  gem 'rack', '~>2.2.6'
   gem 'faker'
   gem 'pry'
   gem 'pry-rails'
